@@ -1,6 +1,6 @@
-# PixelSheet Gen
+# Sheets Quest
 
-**PixelSheet Gen** turns pixel art images into interactive, quiz-style spreadsheets for students. Students type answers to questions and watch a hidden pixel art picture reveal itself — making review and practice more engaging!
+**Sheets Quest** turns pixel art images into interactive, quiz-style spreadsheets for students. Students type answers to questions and watch a hidden pixel art picture reveal itself — making review and practice more engaging!
 
 The generated `.xlsx` files work in both **Microsoft Excel** and **Google Sheets**.
 
@@ -69,4 +69,4 @@ The app is built with [React](https://react.dev/), [TypeScript](https://www.type
 
 Content created with this tool is **free to distribute** but **cannot be sold**. Modifications are permitted but cannot be sold or used for commercial content.
 
-© 2026 PixelSheet Gen. All rights reserved.
+© 2026 Sheets Quest. All rights reserved.
