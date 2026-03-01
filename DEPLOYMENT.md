@@ -41,7 +41,7 @@ Found a bug or have a feature request? We'd love to hear from you.
 1. Go to the [Issues page](https://github.com/argtime/sheets-quest/issues).
 2. Click **New issue**.
 3. Choose the appropriate template (Bug report or Feature request).
-4. Fill in as much detail as possible — steps to reproduce, expected vs. actual behaviour, screenshots, etc.
+4. Fill in as much detail as possible — steps to reproduce, expected vs. actual behavior, screenshots, etc.
 5. Submit the issue.
 
 > Issues are the best way to track bugs and feature requests because they're public, searchable, and let the community upvote and discuss them.
