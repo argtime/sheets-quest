@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, Download, Plus, Trash2, FileSpreadsheet, Settings, Image as ImageIcon, Shield, FileText, X, BookOpen, Info, CheckCircle2, RotateCcw, Share2, Copy, Check } from 'lucide-react';
+import { Upload, Download, Plus, Trash2, FileSpreadsheet, Settings, Image as ImageIcon, Shield, FileText, X, BookOpen, Info, CheckCircle2, RotateCcw, Share2, Copy, Check, Mail, MessageSquare, Bug, Lightbulb } from 'lucide-react';
 import { processImage, ProcessedImage } from './utils/pixelProcessor';
 import { generatePixelArtSheet, Question, SheetOptions } from './utils/sheetGenerator';
 import { motion, AnimatePresence } from 'motion/react';
@@ -33,6 +33,9 @@ function App() {
   const [showTerms, setShowTerms] = useState(false);
   const [showHowTo, setShowHowTo] = useState(false);
   const [showDownloadPrompt, setShowDownloadPrompt] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackType, setFeedbackType] = useState<'bug' | 'feature' | 'other'>('other');
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   // Custom instructions for the generated sheet
   const [customInstructions, setCustomInstructions] = useState('');
@@ -495,6 +498,26 @@ function App() {
             </div>
           </div>
 
+          {/* Support & Feedback row */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-slate-100 pt-5">
+            <a
+              href="mailto:sheetsquest@googlegroups.com"
+              className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-emerald-600 transition-colors"
+              aria-label="Email support at sheetsquest@googlegroups.com"
+            >
+              <Mail size={15} aria-hidden="true" />
+              sheetsquest@googlegroups.com
+            </a>
+            <span className="hidden sm:inline text-slate-300" aria-hidden="true">·</span>
+            <button
+              onClick={() => { setFeedbackSubmitted(false); setShowFeedback(true); }}
+              className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-emerald-600 transition-colors"
+            >
+              <MessageSquare size={15} aria-hidden="true" />
+              Send Feedback
+            </button>
+          </div>
+
           {/* Legal row */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-slate-500 border-t border-slate-100 pt-5">
             <div className="flex items-center gap-6 flex-wrap justify-center md:justify-start">
@@ -779,6 +802,166 @@ function App() {
                   Got it!
                 </button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Feedback Modal */}
+      <AnimatePresence>
+        {showFeedback && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4"
+            onClick={() => setShowFeedback(false)}
+            aria-hidden="true"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-8 shadow-xl"
+              onClick={e => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="feedback-dialog-title"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h2 id="feedback-dialog-title" className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                  <MessageSquare className="text-emerald-500" aria-hidden="true" /> Send Feedback
+                </h2>
+                <button onClick={() => setShowFeedback(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors" aria-label="Close feedback">
+                  <X size={20} aria-hidden="true" />
+                </button>
+              </div>
+
+              {feedbackSubmitted ? (
+                <div className="text-center py-8 space-y-3">
+                  <CheckCircle2 size={48} className="text-emerald-500 mx-auto" aria-hidden="true" />
+                  <p className="text-lg font-semibold text-slate-800">Thanks for your feedback!</p>
+                  <p className="text-sm text-slate-500">We appreciate you helping us improve Sheets Quest.</p>
+                  <button
+                    onClick={() => setShowFeedback(false)}
+                    className="mt-4 px-6 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-all"
+                  >
+                    Close
+                  </button>
+                </div>
+              ) : (
+                <>
+                  {/* Type selector */}
+                  <div className="flex gap-2 mb-6" role="group" aria-label="Feedback type">
+                    <button
+                      onClick={() => setFeedbackType('bug')}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all ${feedbackType === 'bug' ? 'border-red-400 bg-red-50 text-red-700' : 'border-slate-200 text-slate-600 hover:border-red-300 hover:bg-red-50'}`}
+                    >
+                      <Bug size={15} aria-hidden="true" /> Bug Report
+                    </button>
+                    <button
+                      onClick={() => setFeedbackType('feature')}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all ${feedbackType === 'feature' ? 'border-blue-400 bg-blue-50 text-blue-700' : 'border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50'}`}
+                    >
+                      <Lightbulb size={15} aria-hidden="true" /> Feature Request
+                    </button>
+                    <button
+                      onClick={() => setFeedbackType('other')}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all ${feedbackType === 'other' ? 'border-emerald-400 bg-emerald-50 text-emerald-700' : 'border-slate-200 text-slate-600 hover:border-emerald-300 hover:bg-emerald-50'}`}
+                    >
+                      <MessageSquare size={15} aria-hidden="true" /> Other
+                    </button>
+                  </div>
+
+                  {/* GitHub issue hint */}
+                  <div className="mb-5 p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-500">
+                    You can also{' '}
+                    <a
+                      href="https://github.com/argtime/sheets-quest/issues"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-600 underline underline-offset-2"
+                    >
+                      open an issue on GitHub
+                    </a>{' '}
+                    if you prefer — bugs and feature requests are tracked there too.
+                  </div>
+
+                  {/* Bug report form */}
+                  {feedbackType === 'bug' && (
+                    <form
+                      action="https://formspree.io/f/xeelwzdb"
+                      method="POST"
+                      onSubmit={() => setTimeout(() => setFeedbackSubmitted(true), 100)}
+                      className="space-y-4"
+                    >
+                      <input type="hidden" name="_subject" value="Bug Report – Sheets Quest" />
+                      <input type="hidden" name="type" value="Bug Report" />
+                      <div>
+                        <label htmlFor="bug-email" className="block text-sm font-medium text-slate-700 mb-1">Your email <span className="text-slate-400 font-normal">(optional)</span></label>
+                        <input id="bug-email" type="email" name="email" placeholder="you@example.com" className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+                      </div>
+                      <div>
+                        <label htmlFor="bug-description" className="block text-sm font-medium text-slate-700 mb-1">What happened? <span className="text-red-500">*</span></label>
+                        <textarea id="bug-description" name="description" required rows={3} placeholder="Describe the bug — what did you do, what did you expect, and what actually happened?" className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none" />
+                      </div>
+                      <div>
+                        <label htmlFor="bug-steps" className="block text-sm font-medium text-slate-700 mb-1">Steps to reproduce <span className="text-slate-400 font-normal">(optional)</span></label>
+                        <textarea id="bug-steps" name="steps_to_reproduce" rows={2} placeholder="1. Upload image&#10;2. Click Download…" className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none" />
+                      </div>
+                      <button type="submit" className="w-full py-2.5 px-4 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-all">Submit Bug Report</button>
+                    </form>
+                  )}
+
+                  {/* Feature request form */}
+                  {feedbackType === 'feature' && (
+                    <form
+                      action="https://formspree.io/f/xykdapvv"
+                      method="POST"
+                      onSubmit={() => setTimeout(() => setFeedbackSubmitted(true), 100)}
+                      className="space-y-4"
+                    >
+                      <input type="hidden" name="_subject" value="Feature Request – Sheets Quest" />
+                      <input type="hidden" name="type" value="Feature Request" />
+                      <div>
+                        <label htmlFor="feature-email" className="block text-sm font-medium text-slate-700 mb-1">Your email <span className="text-slate-400 font-normal">(optional)</span></label>
+                        <input id="feature-email" type="email" name="email" placeholder="you@example.com" className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+                      </div>
+                      <div>
+                        <label htmlFor="feature-title" className="block text-sm font-medium text-slate-700 mb-1">Feature summary <span className="text-red-500">*</span></label>
+                        <input id="feature-title" type="text" name="feature_title" required placeholder="Short description of the feature" className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+                      </div>
+                      <div>
+                        <label htmlFor="feature-description" className="block text-sm font-medium text-slate-700 mb-1">Details <span className="text-slate-400 font-normal">(optional)</span></label>
+                        <textarea id="feature-description" name="description" rows={3} placeholder="Why would this be useful? How should it work?" className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none" />
+                      </div>
+                      <button type="submit" className="w-full py-2.5 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-all">Submit Feature Request</button>
+                    </form>
+                  )}
+
+                  {/* Other form */}
+                  {feedbackType === 'other' && (
+                    <form
+                      action="https://formspree.io/f/mojnzlbg"
+                      method="POST"
+                      onSubmit={() => setTimeout(() => setFeedbackSubmitted(true), 100)}
+                      className="space-y-4"
+                    >
+                      <input type="hidden" name="_subject" value="Feedback – Sheets Quest" />
+                      <input type="hidden" name="type" value="Other" />
+                      <div>
+                        <label htmlFor="other-email" className="block text-sm font-medium text-slate-700 mb-1">Your email <span className="text-slate-400 font-normal">(optional)</span></label>
+                        <input id="other-email" type="email" name="email" placeholder="you@example.com" className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+                      </div>
+                      <div>
+                        <label htmlFor="other-message" className="block text-sm font-medium text-slate-700 mb-1">Message <span className="text-red-500">*</span></label>
+                        <textarea id="other-message" name="message" required rows={4} placeholder="What's on your mind?" className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none" />
+                      </div>
+                      <button type="submit" className="w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-all">Send Message</button>
+                    </form>
+                  )}
+                </>
+              )}
             </motion.div>
           </motion.div>
         )}
