@@ -41,6 +41,14 @@ After downloading your `.xlsx` file:
 
 ---
 
+## Support
+
+- **Email:** [sheetsquest@googlegroups.com](mailto:sheetsquest@googlegroups.com)
+- **Bug reports & feature requests:** [Open an issue on GitHub](https://github.com/argtime/sheets-quest/issues)
+- **Feedback form:** Use the **Send Feedback** button at the bottom of the website.
+
+---
+
 ## Development
 
 ### Prerequisites
@@ -62,6 +70,12 @@ npm run build
 ```
 
 The app is built with [React](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vitejs.dev/), and [Tailwind CSS](https://tailwindcss.com/).
+
+---
+
+## Contributing
+
+We welcome contributions! Please read [DEPLOYMENT.md](DEPLOYMENT.md) for guidelines on reporting bugs, requesting features, and submitting pull requests.
 
 ---
 
