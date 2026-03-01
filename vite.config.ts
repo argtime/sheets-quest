@@ -5,7 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: '/sheets-quest/',
+    base: '/sheetsquest/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
