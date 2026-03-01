@@ -545,20 +545,24 @@ function App() {
                 <h3>1. Data Collection</h3>
                 <p>We do not collect, store, or transmit any personal data or uploaded images to external servers. All image processing and spreadsheet generation happens entirely within your browser (client-side). Your images, questions, and answers never leave your device.</p>
                 
-                <h3>2. Local Storage</h3>
+                <h3>2. Cookies &amp; Analytics</h3>
+                <p>This site uses <strong>Google Analytics 4</strong> to collect anonymized usage data — such as page views, approximate geographic region, browser type, and device type — so we can understand how the tool is being used and improve it over time. Google Analytics may set cookies on your device for this purpose.</p>
+                <p>The data collected by Google Analytics is processed in accordance with <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Google's Privacy Policy</a>. We do not use this data to identify individual users. You can opt out of Google Analytics tracking by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Google Analytics Opt-out Browser Add-on</a>.</p>
+
+                <h3>3. Local Storage</h3>
                 <p>We may use your browser's local storage to temporarily save your preferences (such as settings toggles) to improve your experience. This data never leaves your device and can be cleared at any time through your browser settings.</p>
                 
-                <h3>3. Third-Party Services</h3>
-                <p>This application is hosted on a platform that may collect basic usage logs (IP addresses, request times) for security and operational purposes. We do not sell or share any such data with third parties for advertising purposes.</p>
+                <h3>4. Third-Party Services</h3>
+                <p>This application is hosted on GitHub Pages, which may collect basic usage logs (IP addresses, request times) for security and operational purposes. We do not sell or share any such data with third parties for advertising purposes.</p>
                 <p>This site contains links to third-party sharing services (Twitter/X, Facebook, Reddit). Clicking these links will open those platforms in a new tab and their respective privacy policies will apply. We do not track clicks on these sharing links.</p>
 
-                <h3>4. Social Sharing</h3>
+                <h3>5. Social Sharing</h3>
                 <p>We provide optional social sharing buttons to help you share the Sheets Quest tool with other educators. Using these buttons will open a new tab to the respective social platform. No data about your activity on this site is shared with those platforms unless you actively click those buttons and interact with those platforms.</p>
                 
-                <h3>5. Children's Privacy</h3>
-                <p>This tool is designed to be safe for use in educational settings. We do not knowingly collect any personal information from children under the age of 13. Because all processing is done locally in the browser, no data is transmitted from any user.</p>
+                <h3>6. Children's Privacy</h3>
+                <p>This tool is designed to be safe for use in educational settings. We do not knowingly collect any personal information from children under the age of 13. Analytics data collected by Google Analytics is anonymized and cannot be used to identify individual users of any age.</p>
 
-                <h3>6. Changes to This Policy</h3>
+                <h3>7. Changes to This Policy</h3>
                 <p>We may update this Privacy Policy from time to time. Any changes will be reflected with an updated "Last Updated" date above.</p>
               </div>
             </motion.div>
