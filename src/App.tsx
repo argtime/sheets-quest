@@ -890,7 +890,7 @@ function App() {
                   {/* Bug report form */}
                   {feedbackType === 'bug' && (
                     <form
-                      action="https://formspree.io/f/xkgrovqv"
+                      action="https://formspree.io/f/xeelwzdb"
                       method="POST"
                       onSubmit={() => setTimeout(() => setFeedbackSubmitted(true), 100)}
                       className="space-y-4"
@@ -916,7 +916,7 @@ function App() {
                   {/* Feature request form */}
                   {feedbackType === 'feature' && (
                     <form
-                      action="https://formspree.io/f/xkgrovqv"
+                      action="https://formspree.io/f/xykdapvv"
                       method="POST"
                       onSubmit={() => setTimeout(() => setFeedbackSubmitted(true), 100)}
                       className="space-y-4"
@@ -942,7 +942,7 @@ function App() {
                   {/* Other form */}
                   {feedbackType === 'other' && (
                     <form
-                      action="https://formspree.io/f/xkgrovqv"
+                      action="https://formspree.io/f/mojnzlbg"
                       method="POST"
                       onSubmit={() => setTimeout(() => setFeedbackSubmitted(true), 100)}
                       className="space-y-4"
