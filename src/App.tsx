@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Upload, Download, Plus, Trash2, FileSpreadsheet, Settings, Image as ImageIcon, Shield, FileText, X, BookOpen, Info, CheckCircle2, RotateCcw, Copy, Check, Mail, MessageSquare, Bug, Lightbulb } from 'lucide-react';
 import { processImage, ProcessedImage } from './utils/pixelProcessor';
 import { generatePixelArtSheet, Question, SheetOptions } from './utils/sheetGenerator';
@@ -9,16 +9,29 @@ function App() {
   
   const MAX_QUESTIONS = 40;
 
-  const [questions, setQuestions] = useState<Question[]>([
+  const DEFAULT_QUESTIONS: Question[] = [
     { id: '1', text: '', answer: '' },
     { id: '2', text: '', answer: '' },
     { id: '3', text: '', answer: '' },
     { id: '4', text: '', answer: '' },
     { id: '5', text: '', answer: '' },
-  ]);
+  ];
+
+  const [questions, setQuestions] = useState<Question[]>(() => {
+    try {
+      const saved = localStorage.getItem('sheetsquest_questions');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.every(
+          (q) => q && typeof q.id === 'string' && typeof q.text === 'string' && typeof q.answer === 'string'
+        )) return parsed as Question[];
+      }
+    } catch { /* ignore */ }
+    return DEFAULT_QUESTIONS;
+  });
   const [isGenerating, setIsGenerating] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [fileName, setFileName] = useState('SheetsQuest_Activity');
+  const [fileName, setFileName] = useState(() => localStorage.getItem('sheetsquest_fileName') ?? 'SheetsQuest_Activity');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Settings State
@@ -38,7 +51,12 @@ function App() {
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   // Custom instructions for the generated sheet
-  const [customInstructions, setCustomInstructions] = useState('');
+  const [customInstructions, setCustomInstructions] = useState(() => localStorage.getItem('sheetsquest_customInstructions') ?? '');
+
+  // Persist questions, fileName, and customInstructions to localStorage
+  useEffect(() => { localStorage.setItem('sheetsquest_questions', JSON.stringify(questions)); }, [questions]);
+  useEffect(() => { localStorage.setItem('sheetsquest_fileName', fileName); }, [fileName]);
+  useEffect(() => { localStorage.setItem('sheetsquest_customInstructions', customInstructions); }, [customInstructions]);
 
   // Persist "do not show again" preference
   const doNotShowGoogleSheetsPrompt = () => localStorage.getItem('hideGoogleSheetsPrompt') === 'true';
@@ -118,15 +136,12 @@ function App() {
   const handleClearAll = () => {
     if (!confirm('Are you sure you want to clear everything? This cannot be undone.')) return;
     setImage(null);
-    setQuestions([
-      { id: '1', text: '', answer: '' },
-      { id: '2', text: '', answer: '' },
-      { id: '3', text: '', answer: '' },
-      { id: '4', text: '', answer: '' },
-      { id: '5', text: '', answer: '' },
-    ]);
+    setQuestions(DEFAULT_QUESTIONS);
     setFileName('SheetsQuest_Activity');
     setCustomInstructions('');
+    localStorage.removeItem('sheetsquest_questions');
+    localStorage.removeItem('sheetsquest_fileName');
+    localStorage.removeItem('sheetsquest_customInstructions');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
