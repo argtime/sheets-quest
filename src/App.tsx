@@ -4,6 +4,12 @@ import { processImage, ProcessedImage } from './utils/pixelProcessor';
 import { generatePixelArtSheet, Question, SheetOptions } from './utils/sheetGenerator';
 import { motion, AnimatePresence } from 'motion/react';
 
+declare global {
+  interface Window {
+    dataLayer: Record<string, unknown>[];
+  }
+}
+
 function App() {
   const [image, setImage] = useState<ProcessedImage | null>(null);
   
@@ -120,6 +126,8 @@ function App() {
     if (!doNotShowGoogleSheetsPrompt()) {
       setShowDownloadPrompt(true);
     }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'sheet_download' });
     await executeDownload();
   };
 
