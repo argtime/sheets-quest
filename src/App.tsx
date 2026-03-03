@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Upload, Download, Plus, Trash2, FileSpreadsheet, Settings, Image as ImageIcon, Shield, FileText, X, BookOpen, Info, CheckCircle2, RotateCcw, Copy, Check, Mail, MessageSquare, Bug, Lightbulb } from 'lucide-react';
 import { processImage, ProcessedImage } from './utils/pixelProcessor';
-import { generatePixelArtSheet, Question, SheetOptions } from './utils/sheetGenerator';
+import type { Question, SheetOptions } from './utils/sheetGenerator';
 import { motion, AnimatePresence } from 'motion/react';
 
 declare global {
@@ -104,6 +104,7 @@ function App() {
     setIsGenerating(true);
     try {
       const name = fileName.endsWith('.xlsx') ? fileName : `${fileName}.xlsx`;
+      const { generatePixelArtSheet } = await import('./utils/sheetGenerator');
       await generatePixelArtSheet(image, validQuestions, name, { ...options, customInstructions: customInstructions || undefined });
     } catch (error) {
       console.error('Error generating sheet:', error);
@@ -274,7 +275,7 @@ function App() {
                   </div>
                 </div>
               ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 gap-3">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-600 gap-3">
                   <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center">
                     <Upload size={24} />
                   </div>
