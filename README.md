@@ -152,6 +152,5 @@ CC BY-NC-SA 4.0. Source: https://github.com/rshamilton/sheetsquest
 
 An HTML version is in [LICENSE.md](LICENSE.md). If you changed something, add "Modified from the original."
 
-> **Two notes.** CC BY-NC-SA 4.0 is not an OSI-approved open-source license, because "no commercial use" is incompatible with the open-source definition. As a result GitHub's license detector cannot identify it and the sidebar will read "Other" — that is true of *every* non-commercial license, not a problem with this one. Contributions are accepted on the understanding that they carry these same terms.
 
 © 2026 rshamilton
