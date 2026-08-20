@@ -11,6 +11,12 @@ The generated `.xlsx` files work in both **Microsoft Excel** and **Google Sheets
 
 ---
 
+## Editor's Note
+
+This project was made possible by AI. Yes, I used AI. No, it's not AI slop. I still spent hours tweaking every little thing.
+
+---
+
 ## Features
 
 - 📷 **Upload any pixel art image** — the app processes it into a pixel grid automatically.
