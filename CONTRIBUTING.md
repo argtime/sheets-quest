@@ -79,7 +79,7 @@ Node.js v20 or later is required (see [`.nvmrc`](.nvmrc)).
 
 ## Licensing of Contributions
 
-Sheets Quest is copyright © 2026 [rshamilton](https://github.com/rshamilton) and licensed under [CC BY-NC-SA 4.0](LICENSE.md). By submitting a pull request you agree that your contribution is licensed under those same terms, and that you have the right to grant that license.
+Sheets Quest is copyright © 2026 [RSHamilton](https://github.com/rshamilton) and licensed under [CC BY-NC-SA 4.0](LICENSE.md). By submitting a pull request you agree that your contribution is licensed under those same terms, and that you have the right to grant that license.
 
 Note that CC BY-NC-SA 4.0 is not an OSI-approved open-source license: it prohibits commercial use and requires adaptations to be shared alike. Please make sure you're comfortable with that before contributing.
 
