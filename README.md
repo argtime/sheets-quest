@@ -81,6 +81,6 @@ We welcome contributions! Please read [DEPLOYMENT.md](DEPLOYMENT.md) for guideli
 
 ## License & Usage
 
-Content created with this tool is **free to distribute** but **cannot be sold**. Modifications are permitted but cannot be sold or used for commercial content.
+Licensed under CC BY-NC-SA 4.0. View license.md for more info.
 
-© 2026 Sheets Quest. All rights reserved.
+© 2026 Sheets Quest
