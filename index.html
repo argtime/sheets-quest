@@ -11,7 +11,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/sheetsquest/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
@@ -19,20 +19,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <title>Sheets Quest</title>
     <meta name="description" content="Turn any pixel art image into an interactive Google Sheets quiz. Students answer questions to reveal hidden pixel art. Free tool for teachers and educators." />
     <meta name="keywords" content="pixel art quiz, Google Sheets activity, educational spreadsheet, classroom game, teacher tool, interactive quiz, free teacher resources" />
-    <meta name="author" content="Sheets Quest" />
+    <meta name="author" content="rshamilton" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#10b981" />
+    <link rel="canonical" href="https://rshamilton.github.io/sheetsquest/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Sheets Quest – Create Pixel Art Quiz Spreadsheets" />
     <meta property="og:description" content="Turn any pixel art image into an interactive Google Sheets quiz. Students answer questions to reveal hidden pixel art. Free for teachers!" />
     <meta property="og:site_name" content="Sheets Quest" />
+    <meta property="og:url" content="https://rshamilton.github.io/sheetsquest/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://rshamilton.github.io/sheetsquest/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Sheets Quest – turn pixel art into interactive quiz spreadsheets for Excel and Google Sheets." />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Sheets Quest – Create Pixel Art Quiz Spreadsheets" />
     <meta name="twitter:description" content="Turn any pixel art image into an interactive Google Sheets quiz. Students answer questions to reveal hidden pixel art. Free for teachers!" />
+    <meta name="twitter:image" content="https://rshamilton.github.io/sheetsquest/og-image.png" />
+    <meta name="twitter:image:alt" content="Sheets Quest – turn pixel art into interactive quiz spreadsheets for Excel and Google Sheets." />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -41,9 +51,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       "@type": "WebApplication",
       "name": "Sheets Quest",
       "description": "Turn any pixel art image into an interactive Google Sheets quiz for students. Students answer questions to reveal hidden pixel art.",
+      "url": "https://rshamilton.github.io/sheetsquest/",
+      "image": "https://rshamilton.github.io/sheetsquest/og-image.png",
       "applicationCategory": "EducationApplication",
       "operatingSystem": "Web",
       "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "author": {
+        "@type": "Person",
+        "name": "rshamilton",
+        "url": "https://github.com/rshamilton"
+      },
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -60,6 +79,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-emerald-700 focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:font-medium focus:text-sm">
       Skip to main content
     </a>
+    <noscript>
+      <div style="max-width:40rem;margin:4rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;color:#0f172a">
+        <h1 style="font-size:1.5rem;margin-bottom:.75rem">Sheets Quest needs JavaScript</h1>
+        <p style="color:#475569;line-height:1.6">
+          Sheets Quest builds your spreadsheet entirely inside your browser, so it needs
+          JavaScript enabled. Please turn it on and reload the page.
+        </p>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

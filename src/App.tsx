@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Upload, Download, Plus, Trash2, FileSpreadsheet, Settings, Image as ImageIcon, Shield, FileText, X, BookOpen, Info, CheckCircle2, RotateCcw, Copy, Check, Mail, MessageSquare, Bug, Lightbulb } from 'lucide-react';
-import { processImage, ProcessedImage } from './utils/pixelProcessor';
+import { processImage, MAX_IMAGE_BYTES, type ProcessedImage } from './utils/pixelProcessor';
 import type { Question, SheetOptions } from './utils/sheetGenerator';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -10,34 +10,47 @@ declare global {
   }
 }
 
+const MAX_QUESTIONS = 40;
+
+const DEFAULT_FILE_NAME = 'SheetsQuest_Activity';
+
+// A fresh array every call — the questions array is state, so it must never be shared.
+const createDefaultQuestions = (): Question[] =>
+  Array.from({ length: 5 }, (_, i) => ({ id: `q${i + 1}`, text: '', answer: '' }));
+
+// localStorage throws in Safari private mode and when the quota is full. Persisting
+// drafts is a convenience, so failures degrade to "not saved" rather than crashing.
+const storage = {
+  get(key: string): string | null {
+    try { return localStorage.getItem(key); } catch { return null; }
+  },
+  set(key: string, value: string): void {
+    try { localStorage.setItem(key, value); } catch { /* storage unavailable */ }
+  },
+  remove(key: string): void {
+    try { localStorage.removeItem(key); } catch { /* storage unavailable */ }
+  },
+};
+
 function App() {
   const [image, setImage] = useState<ProcessedImage | null>(null);
-  
-  const MAX_QUESTIONS = 40;
-
-  const DEFAULT_QUESTIONS: Question[] = [
-    { id: '1', text: '', answer: '' },
-    { id: '2', text: '', answer: '' },
-    { id: '3', text: '', answer: '' },
-    { id: '4', text: '', answer: '' },
-    { id: '5', text: '', answer: '' },
-  ];
 
   const [questions, setQuestions] = useState<Question[]>(() => {
     try {
-      const saved = localStorage.getItem('sheetsquest_questions');
+      const saved = storage.get('sheetsquest_questions');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.every(
+        if (Array.isArray(parsed) && parsed.length > 0 && parsed.every(
           (q) => q && typeof q.id === 'string' && typeof q.text === 'string' && typeof q.answer === 'string'
-        )) return parsed as Question[];
+        )) return (parsed as Question[]).slice(0, MAX_QUESTIONS);
       }
-    } catch { /* ignore */ }
-    return DEFAULT_QUESTIONS;
+    } catch { /* corrupt draft — fall back to a blank sheet */ }
+    return createDefaultQuestions();
   });
   const [isGenerating, setIsGenerating] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [fileName, setFileName] = useState(() => localStorage.getItem('sheetsquest_fileName') ?? 'SheetsQuest_Activity');
+  const [fileName, setFileName] = useState(() => storage.get('sheetsquest_fileName') ?? DEFAULT_FILE_NAME);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Settings State
@@ -57,30 +70,49 @@ function App() {
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   // Custom instructions for the generated sheet
-  const [customInstructions, setCustomInstructions] = useState(() => localStorage.getItem('sheetsquest_customInstructions') ?? '');
+  const [customInstructions, setCustomInstructions] = useState(() => storage.get('sheetsquest_customInstructions') ?? '');
 
   // Persist questions, fileName, and customInstructions to localStorage
-  useEffect(() => { localStorage.setItem('sheetsquest_questions', JSON.stringify(questions)); }, [questions]);
-  useEffect(() => { localStorage.setItem('sheetsquest_fileName', fileName); }, [fileName]);
-  useEffect(() => { localStorage.setItem('sheetsquest_customInstructions', customInstructions); }, [customInstructions]);
+  useEffect(() => { storage.set('sheetsquest_questions', JSON.stringify(questions)); }, [questions]);
+  useEffect(() => { storage.set('sheetsquest_fileName', fileName); }, [fileName]);
+  useEffect(() => { storage.set('sheetsquest_customInstructions', customInstructions); }, [customInstructions]);
 
   // Persist "do not show again" preference
-  const doNotShowGoogleSheetsPrompt = () => localStorage.getItem('hideGoogleSheetsPrompt') === 'true';
+  const doNotShowGoogleSheetsPrompt = () => storage.get('hideGoogleSheetsPrompt') === 'true';
 
   // Sharing
   const [linkCopied, setLinkCopied] = useState(false);
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
+    // navigator.clipboard is undefined outside secure contexts.
+    navigator.clipboard?.writeText(window.location.href).then(() => {
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 2000);
-    });
+    }).catch(() => { /* clipboard blocked — the URL is in the address bar anyway */ });
   };
   const shareText = encodeURIComponent('Check out Sheets Quest – turn pixel art into interactive Google Sheets quizzes for students! 🎨📊 Free for teachers!');
   const shareUrl = encodeURIComponent(window.location.href);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const input = e.target;
+    const file = input.files?.[0];
     if (!file) return;
+
+    setUploadError(null);
+
+    // The file picker's `accept` filter is advisory — drag-and-drop and some
+    // platforms bypass it, so validate before handing anything to the canvas.
+    if (!file.type.startsWith('image/')) {
+      setUploadError('That file is not an image. Please choose a PNG, JPEG, GIF, or WebP file.');
+      input.value = '';
+      return;
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      const sizeMb = (file.size / 1024 / 1024).toFixed(1);
+      const limitMb = Math.round(MAX_IMAGE_BYTES / 1024 / 1024);
+      setUploadError(`That image is ${sizeMb} MB. Please choose an image under ${limitMb} MB.`);
+      input.value = '';
+      return;
+    }
 
     setIsProcessing(true);
     try {
@@ -88,7 +120,8 @@ function App() {
       setImage(processed);
     } catch (error) {
       console.error('Error processing image:', error);
-      alert('Failed to process image');
+      setUploadError('We could not read that image. It may be corrupted or in an unsupported format.');
+      input.value = '';
     } finally {
       setIsProcessing(false);
     }
@@ -133,32 +166,55 @@ function App() {
   };
 
   const addQuestion = () => {
-    setQuestions([...questions, { id: Date.now().toString(), text: '', answer: '' }]);
+    setQuestions((prev) =>
+      prev.length >= MAX_QUESTIONS
+        ? prev
+        : [...prev, { id: `q${Date.now()}`, text: '', answer: '' }]
+    );
   };
 
   const removeQuestion = (index: number) => {
-    const newQuestions = [...questions];
-    newQuestions.splice(index, 1);
-    setQuestions(newQuestions);
+    setQuestions((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleClearAll = () => {
     if (!confirm('Are you sure you want to clear everything? This cannot be undone.')) return;
     setImage(null);
-    setQuestions(DEFAULT_QUESTIONS);
-    setFileName('SheetsQuest_Activity');
+    setQuestions(createDefaultQuestions());
+    setFileName(DEFAULT_FILE_NAME);
     setCustomInstructions('');
-    localStorage.removeItem('sheetsquest_questions');
-    localStorage.removeItem('sheetsquest_fileName');
-    localStorage.removeItem('sheetsquest_customInstructions');
+    setUploadError(null);
+    storage.remove('sheetsquest_questions');
+    storage.remove('sheetsquest_fileName');
+    storage.remove('sheetsquest_customInstructions');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const updateQuestion = (index: number, field: 'text' | 'answer', value: string) => {
-    const newQuestions = [...questions];
-    newQuestions[index][field] = value;
-    setQuestions(newQuestions);
+    setQuestions((prev) => prev.map((q, i) => (i === index ? { ...q, [field]: value } : q)));
   };
+
+  // Any modal open? Used for Escape-to-close and background scroll locking.
+  const openModal = showPrivacy ? setShowPrivacy
+    : showTerms ? setShowTerms
+    : showHowTo ? setShowHowTo
+    : showFeedback ? setShowFeedback
+    : showDownloadPrompt ? setShowDownloadPrompt
+    : null;
+
+  useEffect(() => {
+    if (!openModal) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') openModal(false);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [openModal]);
 
   const handleUploadKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -289,6 +345,12 @@ function App() {
                 </div>
               )}
             </div>
+
+            {uploadError && (
+              <p role="alert" className="mt-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {uploadError}
+              </p>
+            )}
           </div>
 
           {/* Settings Card */}
@@ -387,7 +449,7 @@ function App() {
             {questions.length >= MAX_QUESTIONS && (
               <div className="px-6 py-3 bg-amber-50 border-b border-amber-100 text-amber-800 text-sm flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                Maximum of 40 questions reached.
+                Maximum of {MAX_QUESTIONS} questions reached.
               </div>
             )}
             
@@ -466,9 +528,27 @@ function App() {
       <footer className="bg-white border-t border-slate-200 py-3">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-xs text-slate-500">
           <div className="flex items-center gap-4 flex-wrap">
-            <span>&copy; 2026 Sheets Quest</span>
+            <span>
+              &copy; 2026{' '}
+              <a
+                href="https://github.com/rshamilton"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline"
+              >
+                rshamilton
+              </a>
+            </span>
             <button onClick={() => setShowPrivacy(true)} className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline">Privacy</button>
             <button onClick={() => setShowTerms(true)} className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline">Terms</button>
+            <a
+              href="https://github.com/rshamilton/sheetsquest"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline"
+            >
+              Source &amp; license
+            </a>
             <a
               href="mailto:sheetsquest@googlegroups.com"
               className="hover:text-emerald-600 transition-colors"
@@ -517,7 +597,6 @@ function App() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4"
             onClick={() => setShowPrivacy(false)}
-            aria-hidden="true"
           >
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }}
@@ -538,30 +617,32 @@ function App() {
                 </button>
               </div>
               <div className="prose prose-slate text-sm">
-                <p><strong>Last Updated: March 1, 2026</strong></p>
+                <p><strong>Last Updated: August 20, 2026</strong></p>
                 <p>This Privacy Policy describes how Sheets Quest ("we", "us", or "our") handles your information when you use our free educational tool.</p>
-                
-                <h3>1. Data Collection</h3>
-                <p>We do not collect, store, or transmit any personal data or uploaded images to external servers. All image processing and spreadsheet generation happens entirely within your browser (client-side). Your images, questions, and answers never leave your device.</p>
-                
+
+                <h3>1. Your Images, Questions &amp; Answers</h3>
+                <p>The images you upload and the questions and answers you write are never sent to us or to anyone else. All image processing and spreadsheet generation happens entirely within your browser (client-side), and the finished <code>.xlsx</code> file is written directly to your device. We operate no server that receives this content, and we could not access it even if we wanted to.</p>
+
                 <h3>2. Cookies &amp; Analytics</h3>
-                <p>This site uses <strong>Google Analytics 4</strong> to collect anonymized usage data — such as page views, approximate geographic region, browser type, and device type — so we can understand how the tool is being used and improve it over time. Google Analytics may set cookies on your device for this purpose.</p>
-                <p>The data collected by Google Analytics is processed in accordance with <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Google's Privacy Policy</a>. We do not use this data to identify individual users. You can opt out of Google Analytics tracking by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Google Analytics Opt-out Browser Add-on</a>.</p>
+                <p>This site loads <strong>Google Tag Manager</strong>, which in turn loads <strong>Google Analytics</strong>, to collect anonymized usage data — such as page views, approximate geographic region, browser type, device type, and how often a sheet is downloaded — so we can understand how the tool is being used and improve it over time. These services may set cookies on your device for this purpose. We never send your images, questions, or answers to analytics; the download event records only that a download happened.</p>
+                <p>The data collected is processed in accordance with <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Google's Privacy Policy</a>. We do not use this data to identify individual users. You can opt out by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Google Analytics Opt-out Browser Add-on</a>, or by blocking analytics scripts in your browser — the tool works fully without them.</p>
 
                 <h3>3. Local Storage</h3>
-                <p>We may use your browser's local storage to temporarily save your preferences (such as settings toggles) to improve your experience. This data never leaves your device and can be cleared at any time through your browser settings.</p>
-                
-                <h3>4. Third-Party Services</h3>
-                <p>This application is hosted on GitHub Pages, which may collect basic usage logs (IP addresses, request times) for security and operational purposes. We do not sell or share any such data with third parties for advertising purposes.</p>
-                <p>This site contains links to third-party sharing services (Twitter/X, Facebook, Reddit). Clicking these links will open those platforms in a new tab and their respective privacy policies will apply. We do not track clicks on these sharing links.</p>
+                <p>We use your browser's local storage to save your work in progress — your activity name, questions, answers, custom instructions, and the "don't show again" preference for the Google Sheets tip — so you don't lose them if you close the tab. This data never leaves your device. Use the <strong>Clear All</strong> button, or clear site data in your browser settings, to remove it at any time.</p>
 
-                <h3>5. Social Sharing</h3>
-                <p>We provide optional social sharing buttons to help you share the Sheets Quest tool with other educators. Using these buttons will open a new tab to the respective social platform. No data about your activity on this site is shared with those platforms unless you actively click those buttons and interact with those platforms.</p>
-                
-                <h3>6. Children's Privacy</h3>
-                <p>This tool is designed to be safe for use in educational settings. We do not knowingly collect any personal information from children under the age of 13. Analytics data collected by Google Analytics is anonymized and cannot be used to identify individual users of any age.</p>
+                <h3>4. The Feedback Form</h3>
+                <p>If — and only if — you choose to submit the optional feedback form, its contents (your message and, if you provide it, your email address) are sent to <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Formspree</a>, a third-party form service that forwards it to us by email. Formspree also records technical details such as your IP address as part of delivering the message. Providing an email address is optional; we use it only to reply to you about your feedback. Nothing is sent unless you submit the form.</p>
 
-                <h3>7. Changes to This Policy</h3>
+                <h3>5. Hosting &amp; Fonts</h3>
+                <p>This application is hosted on GitHub Pages, which may collect basic usage logs (IP addresses, request times) for security and operational purposes. Webfonts are loaded from Google Fonts, which receives your IP address as part of serving those files. We do not sell or share any such data with third parties for advertising purposes.</p>
+
+                <h3>6. Social Sharing</h3>
+                <p>We provide optional social sharing buttons to help you share the Sheets Quest tool with other educators. Using these buttons will open a new tab to the respective platform (X/Twitter, Facebook, Reddit), where that platform's own privacy policy applies. We do not track clicks on these links, and no data about your activity on this site is shared with those platforms unless you actively use them.</p>
+
+                <h3>7. Children's Privacy</h3>
+                <p>This tool is designed to be safe for use in educational settings. We do not knowingly collect any personal information from children under the age of 13, and the tool requires no account or sign-in. Students who open a generated spreadsheet never interact with this site at all. Analytics data is anonymized and cannot be used to identify individual users of any age. Please do not enter student names or other personal information into the feedback form.</p>
+
+                <h3>8. Changes to This Policy</h3>
                 <p>We may update this Privacy Policy from time to time. Any changes will be reflected with an updated "Last Updated" date above.</p>
               </div>
             </motion.div>
@@ -578,7 +659,6 @@ function App() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4"
             onClick={() => setShowTerms(false)}
-            aria-hidden="true"
           >
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }}
@@ -599,11 +679,12 @@ function App() {
                 </button>
               </div>
               <div className="prose prose-slate text-sm">
-                <p><strong>Effective Date: March 1, 2026</strong></p>
-                
+                <p><strong>Effective Date: August 20, 2026</strong></p>
+
                 <h3>1. License &amp; Usage</h3>
                 <p>Sheets Quest is provided as a free tool for educational and personal use. Content generated using this tool (the "Output") — including downloaded spreadsheet files — is free to be shared and distributed for non-commercial purposes.</p>
                 <p className="font-bold text-red-600">RESTRICTION: You may NOT sell the Output, nor use the Output as part of a paid product or service. You may NOT sell modifications of this project or the Output.</p>
+                <p>The Sheets Quest application itself — its source code, documentation, and user interface — is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a> (CC BY-NC-SA 4.0). You may share and adapt it provided you give credit, link to the license, indicate any changes, keep it non-commercial, and license your adaptations under the same terms. The full text is available in the project's <a href="https://github.com/rshamilton/sheetsquest/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">LICENSE.md</a>.</p>
                 
                 <h3>2. Sharing &amp; Distribution</h3>
                 <p>You are encouraged to share this tool with other educators, teachers, and students. You may link to or share this website freely. The social sharing buttons provided on this site are offered as a convenience and their use is entirely optional and voluntary.</p>
@@ -621,7 +702,8 @@ function App() {
                 <p>We reserve the right to modify these terms at any time. Continued use of the tool after changes are posted constitutes your acceptance of the revised terms.</p>
 
                 <h3>7. Copyright</h3>
-                <p>&copy; 2026 Sheets Quest. All rights reserved. The Sheets Quest application, its source code, and its user interface are protected by copyright law.</p>
+                <p>&copy; 2026 <a href="https://github.com/rshamilton" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">rshamilton</a>. The Sheets Quest application, its source code, and its user interface are protected by copyright and are made available under the CC BY-NC-SA 4.0 license described in Section 1. All rights not expressly granted by that license are reserved.</p>
+                <p>If you share or adapt Sheets Quest, please credit it as: <em>Sheets Quest by rshamilton (https://github.com/rshamilton), used under CC BY-NC-SA 4.0</em> — and note if you changed anything.</p>
               </div>
             </motion.div>
           </motion.div>
@@ -637,7 +719,6 @@ function App() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4"
             onClick={() => setShowHowTo(false)}
-            aria-hidden="true"
           >
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }}
@@ -724,7 +805,6 @@ function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4"
-            aria-hidden="true"
           >
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }}
@@ -792,7 +872,6 @@ function App() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4"
             onClick={() => setShowFeedback(false)}
-            aria-hidden="true"
           >
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
@@ -853,7 +932,7 @@ function App() {
                   <div className="mb-5 p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-500">
                     You can also{' '}
                     <a
-                      href="https://github.com/argtime/sheets-quest/issues"
+                      href="https://github.com/rshamilton/sheetsquest/issues"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-emerald-600 underline underline-offset-2"

@@ -1,86 +1,105 @@
-# Deployment & Contributing
+# Deployment
 
-This document covers how to deploy Sheets Quest, report issues, and contribute code.
+How to build and deploy Sheets Quest. For bug reports, feature requests, and
+code contributions, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
-## Deployment
+## Prerequisites
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) v18 or later
+- [Node.js](https://nodejs.org/) v20 or later (see [`.nvmrc`](.nvmrc))
 - npm
 
-### Build
+## Build
 
 ```bash
-# Install dependencies
-npm install
-
-# Build for production (outputs to dist/)
-npm run build
-
-# Preview the production build locally
-npm run preview
+npm ci          # install exactly what package-lock.json specifies
+npm run lint    # type-check (tsc --noEmit, strict)
+npm run build   # production build into dist/
+npm run preview # serve the production build locally
 ```
 
-The app is fully static — the contents of the `dist/` folder can be served from any static hosting service (GitHub Pages, Netlify, Vercel, etc.).
-
-### GitHub Pages
-
-This project is configured to deploy automatically via GitHub Actions when changes are pushed to the `main` branch. See [`.github/workflows/build.yml`](.github/workflows/build.yml) for details.
+The app is fully static — there is no backend and no runtime configuration. The
+contents of `dist/` can be served from any static host (GitHub Pages, Netlify,
+Vercel, Cloudflare Pages, or a plain web server).
 
 ---
 
-## Reporting Issues
+## GitHub Pages (current deployment)
 
-Found a bug or have a feature request? We'd love to hear from you.
+The site is deployed to <https://rshamilton.github.io/sheetsquest/>.
 
-### Option 1 — GitHub Issues (preferred)
+Pushes to `main` are built and published automatically by
+[`.github/workflows/build.yml`](.github/workflows/build.yml). The workflow:
 
-1. Go to the [Issues page](https://github.com/argtime/sheets-quest/issues).
-2. Click **New issue**.
-3. Choose the appropriate template (Bug report or Feature request).
-4. Fill in as much detail as possible — steps to reproduce, expected vs. actual behavior, screenshots, etc.
-5. Submit the issue.
+1. Type-checks and builds on every push and pull request to any branch.
+2. On `main` only, uploads `dist/` as a Pages artifact and deploys it.
 
-> Issues are the best way to track bugs and feature requests because they're public, searchable, and let the community upvote and discuss them.
+### One-time repository setup
 
-### Option 2 — Feedback form
+- **Settings → Pages → Source:** set to **GitHub Actions** (not "Deploy from a branch").
+- **Settings → Environments → `github-pages`:** restrict deployments to the `main` branch.
 
-Use the **Send Feedback** button at the bottom of the website to submit a bug report, feature request, or general message directly.
+### The `base` path
 
-### Option 3 — Email
+`vite.config.ts` sets `base: '/sheetsquest/'`, which must match the path the site
+is served from. Getting this wrong produces a blank page with 404s for the JS and
+CSS bundles.
 
-For private inquiries, contact us at [sheetsquest@googlegroups.com](mailto:sheetsquest@googlegroups.com).
+| Where it's hosted | `base` value |
+| --- | --- |
+| `rshamilton.github.io/sheetsquest/` (project page) | `'/sheetsquest/'` |
+| A custom domain, or a user/org page at the root | `'/'` |
 
----
+Root-relative asset paths in `index.html` (such as the favicon) are rewritten
+with `base` automatically at build time, so they need no change. What *does*
+need updating by hand when the URL changes:
 
-## Contributing Code
-
-We welcome pull requests! Please keep the following in mind:
-
-1. **Open an issue first.** Before writing code, open a GitHub issue describing the problem or feature. This lets us discuss the approach and avoid duplicated effort.
-
-2. **Fork and branch.** Fork the repository and create a descriptive branch (e.g., `fix/image-upload-crash` or `feat/dark-mode`).
-
-3. **Keep changes focused.** A pull request should address one issue or feature. Smaller PRs are easier to review and more likely to be merged.
-
-4. **Test your changes.** Run `npm run lint` and `npm run build` before submitting to make sure nothing is broken.
-
-5. **Submit the pull request.** Open a PR against the `main` branch with a clear description of what you changed and why, referencing the related issue (e.g., `Closes #42`).
-
-> **Important:** Submitting a pull request does **not** guarantee that it will be accepted. We review all contributions, but may decline them for reasons such as scope, design direction, or maintenance burden. We appreciate your effort regardless!
+- the absolute URLs in `public/robots.txt` and `public/sitemap.xml`
+- the `canonical`, `og:url`, `og:image`, and `twitter:image` tags in `index.html`
+- `homepage` in `package.json`
 
 ---
 
-## Code Style
+## Hosting elsewhere
 
-- TypeScript with strict mode enabled
-- React functional components with hooks
-- Tailwind CSS for styling
-- Run `npm run lint` (TypeScript type-check) before committing
+```bash
+npm ci
+npm run build
+# then upload the contents of dist/
+```
+
+Set `base` to `'/'` in `vite.config.ts` if the app is served from the root of a
+domain. Because it's a single page with no client-side routing, no SPA rewrite
+rule is needed.
+
+### Recommended response headers
+
+GitHub Pages does not let you set custom headers. On a host that does, these are
+worth adding:
+
+```
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://www.googletagmanager.com; connect-src 'self' https://formspree.io https://*.google-analytics.com; frame-src https://www.googletagmanager.com; object-src 'none'; base-uri 'self'
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+```
+
+Verify the CSP against the app before enforcing it — Google Tag Manager and the
+Formspree form endpoints are the parts most likely to need adjustment.
 
 ---
 
-© 2026 Sheets Quest. All rights reserved.
+## Deployment checklist
+
+- [ ] `npm run lint` and `npm run build` pass locally
+- [ ] `base` in `vite.config.ts` matches the deployment path
+- [ ] Favicon, `robots.txt`, and `sitemap.xml` URLs match the deployment domain
+- [ ] Open the deployed site, upload an image, and download a sheet
+- [ ] Open that sheet in **both** Excel and Google Sheets
+- [ ] Check the browser console for errors
+
+---
+
+© 2026 [rshamilton](https://github.com/rshamilton). Licensed under [CC BY-NC-SA 4.0](LICENSE.md).

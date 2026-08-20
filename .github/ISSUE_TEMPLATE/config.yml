@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📧 Email the maintainers
+    url: mailto:sheetsquest@googlegroups.com
+    about: Questions, classroom feedback, or private inquiries that aren't bug reports.
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/rshamilton/sheetsquest/security/advisories/new
+    about: Please report security issues privately, not as a public issue.
+  - name: 📖 How to use Sheets Quest
+    url: https://github.com/rshamilton/sheetsquest#how-to-use
+    about: Read the usage guide before filing an issue.

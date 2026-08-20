@@ -30,10 +30,16 @@ If applicable, add screenshots to help explain the problem.
 
 ## Environment
 
-- Browser: [e.g. Chrome 124, Firefox 126]
-- OS: [e.g. Windows 11, macOS 14]
-- File type used: [e.g. PNG, GIF]
+- **Browser and version:** <!-- e.g. Chrome 141, Safari 18 -->
+- **Operating system:** <!-- e.g. Windows 11, macOS 15, ChromeOS, iPadOS -->
+
+## If the problem is with a generated sheet
+
+- **Opened in:** <!-- Excel / Google Sheets / both -->
+- **Number of questions:**
+- **Roughly how large was the source image?**
+- Please attach the `.xlsx` file if you can share it.
 
 ## Additional context
 
-Add any other context about the problem here.
+Anything else that might help us reproduce the problem.
