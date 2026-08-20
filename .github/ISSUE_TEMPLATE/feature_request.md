@@ -18,6 +18,10 @@ A clear and concise description of what you want to happen.
 
 A clear and concise description of any alternative solutions or features you've considered.
 
+## Who would this help?
+
+<!-- e.g. which subject or grade level, and how you'd use it in class. -->
+
 ## Additional context
 
 Add any other context, mockups, or screenshots about the feature request here.

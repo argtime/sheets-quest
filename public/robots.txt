@@ -1,0 +1,5 @@
+# https://argtime.github.io/sheetsquest/
+User-agent: *
+Allow: /
+
+Sitemap: https://argtime.github.io/sheetsquest/sitemap.xml

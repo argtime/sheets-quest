@@ -1,8 +1,13 @@
 # Sheets Quest
 
-**Sheets Quest** turns pixel art images into interactive, quiz-style spreadsheets for students. Students type answers to questions and watch a hidden pixel art picture reveal itself — making review and practice more engaging!
+[![Build](https://github.com/argtime/sheetsquest/actions/workflows/build.yml/badge.svg)](https://github.com/argtime/sheetsquest/actions/workflows/build.yml)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE.md)
+
+**Sheets Quest** turns pixel art images into interactive, quiz-style spreadsheets for students. Students type answers to questions and watch a hidden pixel art picture reveal itself — making review and practice more engaging.
 
 The generated `.xlsx` files work in both **Microsoft Excel** and **Google Sheets**.
+
+**➡️ Try it now: [argtime.github.io/sheetsquest](https://argtime.github.io/sheetsquest/)** — free, no account, no install.
 
 ---
 
@@ -13,21 +18,20 @@ The generated `.xlsx` files work in both **Microsoft Excel** and **Google Sheets
 - ✅ **Smart answer checking** — optionally ignore capitalization, extra spaces, or accents.
 - ✏️ **Custom instructions** — add your own instructions line to the generated sheet.
 - 🎨 **Color-reveal via conditional formatting** — works in Excel and Google Sheets.
-- 🔒 **100% client-side** — no data ever leaves your device.
+- 💾 **Work is saved locally** — your questions stay in the browser between visits.
+- 🔒 **Client-side generation** — images, questions, and answers never leave your device.
 
 ---
 
 ## How to Use
 
-1. **Upload a pixel art image** — click the image upload area and choose a pixel art file. Smaller, high-contrast images with clearly distinct colors work best.
-2. **Add your questions & answers** — type questions and their correct answers in the panel on the right. Each correct answer will unlock a portion of the hidden picture.
+1. **Upload a pixel art image** — click the image upload area and choose a pixel art file. Smaller, high-contrast images with clearly distinct colors work best. Images up to 10 MB are accepted and are downscaled to an 80 px grid.
+2. **Add your questions & answers** — type questions and their correct answers in the panel on the right. Each correct answer will unlock a portion of the hidden picture. Up to 40 questions per sheet.
 3. **Add custom instructions** *(optional)* — enter a custom instructions message that will appear at the top of the generated sheet.
 4. **Adjust settings** *(optional)* — use the Settings panel to choose whether to ignore capitalization, extra spaces, or accents when checking answers.
-5. **Download your sheet** — click **Download Sheet** to generate and download an `.xlsx` file ready to share with students.
+5. **Download your sheet** — click **Download** to generate and download an `.xlsx` file ready to share with students.
 
----
-
-## Opening in Google Sheets
+### Opening in Google Sheets
 
 After downloading your `.xlsx` file:
 
@@ -39,13 +43,9 @@ After downloading your `.xlsx` file:
 
 > **Note:** Allow editing when opening the file so the formulas and conditional formatting can run.
 
----
+### Browser support
 
-## Support
-
-- **Email:** [sheetsquest@googlegroups.com](mailto:sheetsquest@googlegroups.com)
-- **Bug reports & feature requests:** [Open an issue on GitHub](https://github.com/argtime/sheets-quest/issues)
-- **Feedback form:** Use the **Send Feedback** button at the bottom of the website.
+Any current version of Chrome, Edge, Firefox, or Safari. JavaScript is required; the build targets ES2022.
 
 ---
 
@@ -53,34 +53,94 @@ After downloading your `.xlsx` file:
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v18 or later)
+- [Node.js](https://nodejs.org/) v20 or later (see [`.nvmrc`](.nvmrc))
 - npm
 
 ### Getting Started
 
 ```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
+git clone https://github.com/argtime/sheetsquest.git
+cd sheetsquest
+npm install     # install dependencies
+npm run dev     # start the dev server on http://localhost:3000
 ```
 
-The app is built with [React](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vitejs.dev/), and [Tailwind CSS](https://tailwindcss.com/).
+### Scripts
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server on port 3000 |
+| `npm run build` | Production build into `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | TypeScript type-check (`tsc --noEmit`, strict mode) |
+| `npm run clean` | Remove `dist/` |
+
+Run `npm run lint && npm run build` before opening a pull request — CI runs exactly these.
+
+### Project structure
+
+```
+├── index.html                 # App shell, SEO/Open Graph tags, analytics
+├── public/                    # Static assets copied verbatim (favicon, robots.txt, …)
+├── src/
+│   ├── main.tsx               # React entry point
+│   ├── App.tsx                # UI: upload, questions, settings, modals
+│   ├── index.css              # Tailwind entry + theme tokens
+│   └── utils/
+│       ├── pixelProcessor.ts  # Image → pixel grid (canvas, client-side)
+│       └── sheetGenerator.ts  # Pixel grid + Q&A → .xlsx (ExcelJS)
+├── vite.config.ts             # Vite config; `base` must match the Pages subpath
+└── .github/workflows/build.yml  # CI: type-check, build, deploy to GitHub Pages
+```
+
+### Tech stack
+
+[React 19](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vite.dev/), [Tailwind CSS v4](https://tailwindcss.com/), [ExcelJS](https://github.com/exceljs/exceljs), [Motion](https://motion.dev), and [Lucide](https://lucide.dev) icons.
+
+`sheetGenerator.ts` (and with it ExcelJS, the largest dependency) is loaded on demand at download time, so it is not part of the initial page load.
+
+---
+
+## Deployment
+
+The app is fully static. Pushes to `main` are built and published to GitHub Pages automatically by [`.github/workflows/build.yml`](.github/workflows/build.yml). See [DEPLOYMENT.md](DEPLOYMENT.md) for details, including how to host it elsewhere.
 
 ---
 
 ## Contributing
 
-We welcome contributions! Please read [DEPLOYMENT.md](DEPLOYMENT.md) for guidelines on reporting bugs, requesting features, and submitting pull requests.
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for how to report bugs, request features, and submit pull requests. Participation is covered by our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+To report a security issue, please follow [SECURITY.md](SECURITY.md) rather than opening a public issue.
 
 ---
 
-## License & Usage
+## Support
 
-Licensed under CC BY-NC-SA 4.0. View license.md for more info.
+- **Email:** [sheetsquest@googlegroups.com](mailto:sheetsquest@googlegroups.com)
+- **Bug reports & feature requests:** [Open an issue on GitHub](https://github.com/argtime/sheetsquest/issues)
+- **Feedback form:** Use the **Feedback** link at the bottom of the website.
+
+---
+
+## Privacy
+
+Images, questions, and answers are processed entirely in your browser and are never uploaded. The site uses Google Tag Manager for anonymized usage analytics, stores your work in your browser's local storage, and — only if you submit the optional feedback form — sends that form's contents to [Formspree](https://formspree.io/legal/privacy-policy/). Full details are in the **Privacy** dialog in the app footer.
+
+---
+
+## License
+
+Sheets Quest is licensed under [CC BY-NC-SA 4.0](LICENSE.md) (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International).
+
+**You may** share and adapt the project — including for classroom use — as long as you credit Sheets Quest, link to the license, indicate any changes, and license your adaptations under the same terms.
+
+**You may not** use the project or its source code for commercial purposes, including selling it, bundling it into a paid product, or putting it behind a paywall.
+
+**Sheets you create are yours.** The license covers Sheets Quest itself, not the questions, answers, images, or `.xlsx` files you produce with it. Share those however you like, subject to the non-commercial terms in the app's Terms of Service.
+
+Bundled dependencies keep their own (permissive) licenses — see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+> **Note for contributors:** CC BY-NC-SA 4.0 is *not* an OSI-approved open-source license, and GitHub cannot auto-detect it (the repository sidebar will show no license badge). Contributions are accepted on the understanding that they are licensed under these same terms.
 
 © 2026 Sheets Quest
