@@ -137,7 +137,7 @@ Images, questions, and answers are processed entirely in your browser and are ne
 
 ## License
 
-Copyright © 2026 [rshamilton](https://github.com/rshamilton). Sheets Quest is licensed under [CC BY-NC-SA 4.0](LICENSE.md) (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International).
+Copyright © 2026 [RSHamilton](https://github.com/rshamilton). Sheets Quest is licensed under [CC BY-NC-SA 4.0](LICENSE.md) (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International).
 
 **You may** use, share, and adapt the project freely — in classrooms, at home, in workshops, anywhere — as long as you credit the author, link to the license, note any changes you made, and release your adaptations under these same terms.
 
@@ -152,11 +152,11 @@ Bundled dependencies keep their own (permissive) licenses — see [THIRD-PARTY-N
 If you share or adapt Sheets Quest, include a line like this somewhere a reader can find it:
 
 ```
-Sheets Quest by rshamilton (https://github.com/rshamilton), used under
+Sheets Quest by RSHamilton (https://github.com/rshamilton), used under
 CC BY-NC-SA 4.0. Source: https://github.com/rshamilton/sheetsquest
 ```
 
 An HTML version is in [LICENSE.md](LICENSE.md). If you changed something, add "Modified from the original."
 
 
-© 2026 rshamilton
+© 2026 RSHamilton

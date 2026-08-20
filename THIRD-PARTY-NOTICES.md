@@ -3,7 +3,7 @@
 Sheets Quest bundles the following third-party packages into its production
 build. Each is distributed under its own license, reproduced or linked below.
 These licenses apply to the respective packages only — not to Sheets Quest
-itself, which is copyright © 2026 [rshamilton](https://github.com/rshamilton)
+itself, which is copyright © 2026 [RSHamilton](https://github.com/rshamilton)
 and licensed under [CC BY-NC-SA 4.0](LICENSE.md).
 
 ## Bundled at runtime

@@ -1,4 +1,4 @@
-Copyright (c) 2026 rshamilton (https://github.com/rshamilton)
+Copyright (c) 2026 RSHamilton (https://github.com/rshamilton)
 
 SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
@@ -32,13 +32,13 @@ links back to the project, and names the license. Copy one of these:
 
   Plain text:
 
-    Sheets Quest by rshamilton (https://github.com/rshamilton), used under
+    Sheets Quest by RSHamilton (https://github.com/rshamilton), used under
     CC BY-NC-SA 4.0. Source: https://github.com/rshamilton/sheetsquest
 
   HTML:
 
     <a href="https://github.com/rshamilton/sheetsquest">Sheets Quest</a> by
-    <a href="https://github.com/rshamilton">rshamilton</a>, licensed under
+    <a href="https://github.com/rshamilton">RSHamilton</a>, licensed under
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.
 
 If you changed anything, say so — for example, append "Modified from the

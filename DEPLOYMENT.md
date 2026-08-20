@@ -102,4 +102,4 @@ Formspree form endpoints are the parts most likely to need adjustment.
 
 ---
 
-© 2026 [rshamilton](https://github.com/rshamilton). Licensed under [CC BY-NC-SA 4.0](LICENSE.md).
+© 2026 [RSHamilton](https://github.com/rshamilton). Licensed under [CC BY-NC-SA 4.0](LICENSE.md).
