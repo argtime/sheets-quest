@@ -536,7 +536,7 @@ function App() {
                 rel="noopener noreferrer"
                 className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline"
               >
-                rshamilton
+                RSHamilton
               </a>
             </span>
             <button onClick={() => setShowPrivacy(true)} className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline">Privacy</button>
@@ -702,8 +702,8 @@ function App() {
                 <p>We reserve the right to modify these terms at any time. Continued use of the tool after changes are posted constitutes your acceptance of the revised terms.</p>
 
                 <h3>7. Copyright</h3>
-                <p>&copy; 2026 <a href="https://github.com/rshamilton" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">rshamilton</a>. The Sheets Quest application, its source code, and its user interface are protected by copyright and are made available under the CC BY-NC-SA 4.0 license described in Section 1. All rights not expressly granted by that license are reserved.</p>
-                <p>If you share or adapt Sheets Quest, please credit it as: <em>Sheets Quest by rshamilton (https://github.com/rshamilton), used under CC BY-NC-SA 4.0</em> — and note if you changed anything.</p>
+                <p>&copy; 2026 <a href="https://github.com/rshamilton" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">RSHamilton</a>. The Sheets Quest application, its source code, and its user interface are protected by copyright and are made available under the CC BY-NC-SA 4.0 license described in Section 1. All rights not expressly granted by that license are reserved.</p>
+                <p>If you share or adapt Sheets Quest, please credit it as: <em>Sheets Quest by RSHamilton (https://github.com/rshamilton), used under CC BY-NC-SA 4.0</em> — and note if you changed anything.</p>
               </div>
             </motion.div>
           </motion.div>
