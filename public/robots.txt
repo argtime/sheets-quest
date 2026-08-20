@@ -1,5 +1,5 @@
-# https://argtime.github.io/sheetsquest/
+# https://rshamilton.github.io/sheetsquest/
 User-agent: *
 Allow: /
 
-Sitemap: https://argtime.github.io/sheetsquest/sitemap.xml
+Sitemap: https://rshamilton.github.io/sheetsquest/sitemap.xml

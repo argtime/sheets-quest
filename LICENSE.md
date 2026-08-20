@@ -1,4 +1,4 @@
-Copyright (c) 2026 Sheets Quest
+Copyright (c) 2026 rshamilton (https://github.com/rshamilton)
 
 SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
@@ -22,6 +22,30 @@ This license covers the Sheets Quest project itself. It does NOT cover:
     Those remain entirely yours — see the Terms of Service in the app.
   * Third-party dependencies bundled into the built application, which carry
     their own permissive licenses. See THIRD-PARTY-NOTICES.md.
+
+-----------------------------------------------------------------------
+HOW TO ATTRIBUTE
+-----------------------------------------------------------------------
+
+The Attribution term is satisfied by keeping a credit that names the author,
+links back to the project, and names the license. Copy one of these:
+
+  Plain text:
+
+    Sheets Quest by rshamilton (https://github.com/rshamilton), used under
+    CC BY-NC-SA 4.0. Source: https://github.com/rshamilton/sheetsquest
+
+  HTML:
+
+    <a href="https://github.com/rshamilton/sheetsquest">Sheets Quest</a> by
+    <a href="https://github.com/rshamilton">rshamilton</a>, licensed under
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.
+
+If you changed anything, say so — for example, append "Modified from the
+original." Keep the credit somewhere a reader can reasonably find it: an
+About page, a footer, a README, or a credits screen.
+
+-----------------------------------------------------------------------
 
 The unmodified text of the CC BY-NC-SA 4.0 legal code follows.
 

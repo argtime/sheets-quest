@@ -3,7 +3,7 @@
 ## Supported Versions
 
 Sheets Quest is a single static web app deployed continuously from `main` to
-<https://argtime.github.io/sheetsquest/>. Only the currently deployed version is
+<https://rshamilton.github.io/sheetsquest/>. Only the currently deployed version is
 supported; fixes ship by deploying a new build rather than by patching releases.
 
 | Version | Supported |
@@ -19,7 +19,7 @@ in-app feedback form, or social media.**
 Instead, report privately using either of the following:
 
 1. **GitHub Security Advisories (preferred)** — open a draft advisory at
-   <https://github.com/argtime/sheetsquest/security/advisories/new>.
+   <https://github.com/rshamilton/sheetsquest/security/advisories/new>.
 2. **Email** — [sheetsquest@googlegroups.com](mailto:sheetsquest@googlegroups.com)
    with `SECURITY` in the subject line.
 

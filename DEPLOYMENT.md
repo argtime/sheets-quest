@@ -27,7 +27,7 @@ Vercel, Cloudflare Pages, or a plain web server).
 
 ## GitHub Pages (current deployment)
 
-The site is deployed to <https://argtime.github.io/sheetsquest/>.
+The site is deployed to <https://rshamilton.github.io/sheetsquest/>.
 
 Pushes to `main` are built and published automatically by
 [`.github/workflows/build.yml`](.github/workflows/build.yml). The workflow:
@@ -48,7 +48,7 @@ CSS bundles.
 
 | Where it's hosted | `base` value |
 | --- | --- |
-| `argtime.github.io/sheetsquest/` (project page) | `'/sheetsquest/'` |
+| `rshamilton.github.io/sheetsquest/` (project page) | `'/sheetsquest/'` |
 | A custom domain, or a user/org page at the root | `'/'` |
 
 Root-relative asset paths in `index.html` (such as the favicon) are rewritten
@@ -102,4 +102,4 @@ Formspree form endpoints are the parts most likely to need adjustment.
 
 ---
 
-© 2026 Sheets Quest. Licensed under [CC BY-NC-SA 4.0](LICENSE.md).
+© 2026 [rshamilton](https://github.com/rshamilton). Licensed under [CC BY-NC-SA 4.0](LICENSE.md).

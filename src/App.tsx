@@ -528,9 +528,27 @@ function App() {
       <footer className="bg-white border-t border-slate-200 py-3">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-xs text-slate-500">
           <div className="flex items-center gap-4 flex-wrap">
-            <span>&copy; 2026 Sheets Quest</span>
+            <span>
+              &copy; 2026{' '}
+              <a
+                href="https://github.com/rshamilton"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline"
+              >
+                rshamilton
+              </a>
+            </span>
             <button onClick={() => setShowPrivacy(true)} className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline">Privacy</button>
             <button onClick={() => setShowTerms(true)} className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline">Terms</button>
+            <a
+              href="https://github.com/rshamilton/sheetsquest"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-emerald-600 transition-colors underline-offset-2 hover:underline"
+            >
+              Source &amp; license
+            </a>
             <a
               href="mailto:sheetsquest@googlegroups.com"
               className="hover:text-emerald-600 transition-colors"
@@ -666,7 +684,7 @@ function App() {
                 <h3>1. License &amp; Usage</h3>
                 <p>Sheets Quest is provided as a free tool for educational and personal use. Content generated using this tool (the "Output") — including downloaded spreadsheet files — is free to be shared and distributed for non-commercial purposes.</p>
                 <p className="font-bold text-red-600">RESTRICTION: You may NOT sell the Output, nor use the Output as part of a paid product or service. You may NOT sell modifications of this project or the Output.</p>
-                <p>The Sheets Quest application itself — its source code, documentation, and user interface — is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a> (CC BY-NC-SA 4.0). You may share and adapt it provided you give credit, link to the license, indicate any changes, keep it non-commercial, and license your adaptations under the same terms. The full text is available in the project's <a href="https://github.com/argtime/sheetsquest/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">LICENSE.md</a>.</p>
+                <p>The Sheets Quest application itself — its source code, documentation, and user interface — is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a> (CC BY-NC-SA 4.0). You may share and adapt it provided you give credit, link to the license, indicate any changes, keep it non-commercial, and license your adaptations under the same terms. The full text is available in the project's <a href="https://github.com/rshamilton/sheetsquest/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">LICENSE.md</a>.</p>
                 
                 <h3>2. Sharing &amp; Distribution</h3>
                 <p>You are encouraged to share this tool with other educators, teachers, and students. You may link to or share this website freely. The social sharing buttons provided on this site are offered as a convenience and their use is entirely optional and voluntary.</p>
@@ -684,7 +702,8 @@ function App() {
                 <p>We reserve the right to modify these terms at any time. Continued use of the tool after changes are posted constitutes your acceptance of the revised terms.</p>
 
                 <h3>7. Copyright</h3>
-                <p>&copy; 2026 Sheets Quest. The Sheets Quest application, its source code, and its user interface are protected by copyright and are made available under the CC BY-NC-SA 4.0 license described in Section 1. All rights not expressly granted by that license are reserved.</p>
+                <p>&copy; 2026 <a href="https://github.com/rshamilton" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">rshamilton</a>. The Sheets Quest application, its source code, and its user interface are protected by copyright and are made available under the CC BY-NC-SA 4.0 license described in Section 1. All rights not expressly granted by that license are reserved.</p>
+                <p>If you share or adapt Sheets Quest, please credit it as: <em>Sheets Quest by rshamilton (https://github.com/rshamilton), used under CC BY-NC-SA 4.0</em> — and note if you changed anything.</p>
               </div>
             </motion.div>
           </motion.div>
@@ -913,7 +932,7 @@ function App() {
                   <div className="mb-5 p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-500">
                     You can also{' '}
                     <a
-                      href="https://github.com/argtime/sheetsquest/issues"
+                      href="https://github.com/rshamilton/sheetsquest/issues"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-emerald-600 underline underline-offset-2"

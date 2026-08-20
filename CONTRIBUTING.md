@@ -12,8 +12,8 @@ By participating in this project you agree to abide by our [Code of Conduct](COD
 
 ### Option 1 — GitHub Issues (preferred)
 
-1. Search the [existing issues](https://github.com/argtime/sheetsquest/issues) first — someone may have already reported it.
-2. Go to the [Issues page](https://github.com/argtime/sheetsquest/issues) and click **New issue**.
+1. Search the [existing issues](https://github.com/rshamilton/sheetsquest/issues) first — someone may have already reported it.
+2. Go to the [Issues page](https://github.com/rshamilton/sheetsquest/issues) and click **New issue**.
 3. Choose the appropriate template (Bug report or Feature request).
 4. Fill in as much detail as possible — steps to reproduce, expected vs. actual behavior, browser and OS, screenshots, and (for sheet problems) whether you opened the file in Excel or Google Sheets.
 
@@ -38,7 +38,7 @@ For private inquiries, contact us at [sheetsquest@googlegroups.com](mailto:sheet
 ### Development setup
 
 ```bash
-git clone https://github.com/argtime/sheetsquest.git
+git clone https://github.com/rshamilton/sheetsquest.git
 cd sheetsquest
 npm install
 npm run dev     # http://localhost:3000
@@ -79,6 +79,8 @@ Node.js v20 or later is required (see [`.nvmrc`](.nvmrc)).
 
 ## Licensing of Contributions
 
-Sheets Quest is licensed under [CC BY-NC-SA 4.0](LICENSE.md). By submitting a pull request you agree that your contribution is licensed under those same terms, and that you have the right to grant that license.
+Sheets Quest is copyright © 2026 [rshamilton](https://github.com/rshamilton) and licensed under [CC BY-NC-SA 4.0](LICENSE.md). By submitting a pull request you agree that your contribution is licensed under those same terms, and that you have the right to grant that license.
 
 Note that CC BY-NC-SA 4.0 is not an OSI-approved open-source license: it prohibits commercial use and requires adaptations to be shared alike. Please make sure you're comfortable with that before contributing.
+
+Contributors are credited through the Git history and the repository's contributors list. Please don't add yourself to the copyright notice in `LICENSE.md`.

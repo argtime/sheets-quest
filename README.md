@@ -1,13 +1,13 @@
 # Sheets Quest
 
-[![Build](https://github.com/argtime/sheetsquest/actions/workflows/build.yml/badge.svg)](https://github.com/argtime/sheetsquest/actions/workflows/build.yml)
+[![Build](https://github.com/rshamilton/sheetsquest/actions/workflows/build.yml/badge.svg)](https://github.com/rshamilton/sheetsquest/actions/workflows/build.yml)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE.md)
 
 **Sheets Quest** turns pixel art images into interactive, quiz-style spreadsheets for students. Students type answers to questions and watch a hidden pixel art picture reveal itself — making review and practice more engaging.
 
 The generated `.xlsx` files work in both **Microsoft Excel** and **Google Sheets**.
 
-**➡️ Try it now: [argtime.github.io/sheetsquest](https://argtime.github.io/sheetsquest/)** — free, no account, no install.
+**➡️ Try it now: [rshamilton.github.io/sheetsquest](https://rshamilton.github.io/sheetsquest/)** — free, no account, no install.
 
 ---
 
@@ -59,7 +59,7 @@ Any current version of Chrome, Edge, Firefox, or Safari. JavaScript is required;
 ### Getting Started
 
 ```bash
-git clone https://github.com/argtime/sheetsquest.git
+git clone https://github.com/rshamilton/sheetsquest.git
 cd sheetsquest
 npm install     # install dependencies
 npm run dev     # start the dev server on http://localhost:3000
@@ -118,7 +118,7 @@ To report a security issue, please follow [SECURITY.md](SECURITY.md) rather than
 ## Support
 
 - **Email:** [sheetsquest@googlegroups.com](mailto:sheetsquest@googlegroups.com)
-- **Bug reports & feature requests:** [Open an issue on GitHub](https://github.com/argtime/sheetsquest/issues)
+- **Bug reports & feature requests:** [Open an issue on GitHub](https://github.com/rshamilton/sheetsquest/issues)
 - **Feedback form:** Use the **Feedback** link at the bottom of the website.
 
 ---
@@ -131,16 +131,27 @@ Images, questions, and answers are processed entirely in your browser and are ne
 
 ## License
 
-Sheets Quest is licensed under [CC BY-NC-SA 4.0](LICENSE.md) (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International).
+Copyright © 2026 [rshamilton](https://github.com/rshamilton). Sheets Quest is licensed under [CC BY-NC-SA 4.0](LICENSE.md) (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International).
 
-**You may** share and adapt the project — including for classroom use — as long as you credit Sheets Quest, link to the license, indicate any changes, and license your adaptations under the same terms.
+**You may** use, share, and adapt the project freely — in classrooms, at home, in workshops, anywhere — as long as you credit the author, link to the license, note any changes you made, and release your adaptations under these same terms.
 
-**You may not** use the project or its source code for commercial purposes, including selling it, bundling it into a paid product, or putting it behind a paywall.
+**You may not** make money from it. That covers selling it, selling a modified version, bundling it into a paid product or service, and putting it behind a paywall.
 
-**Sheets you create are yours.** The license covers Sheets Quest itself, not the questions, answers, images, or `.xlsx` files you produce with it. Share those however you like, subject to the non-commercial terms in the app's Terms of Service.
+**Sheets you create are yours.** The license covers Sheets Quest itself — not the questions, answers, images, or `.xlsx` files you produce with it. Share those however you like.
 
 Bundled dependencies keep their own (permissive) licenses — see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
-> **Note for contributors:** CC BY-NC-SA 4.0 is *not* an OSI-approved open-source license, and GitHub cannot auto-detect it (the repository sidebar will show no license badge). Contributions are accepted on the understanding that they are licensed under these same terms.
+### How to credit
 
-© 2026 Sheets Quest
+If you share or adapt Sheets Quest, include a line like this somewhere a reader can find it:
+
+```
+Sheets Quest by rshamilton (https://github.com/rshamilton), used under
+CC BY-NC-SA 4.0. Source: https://github.com/rshamilton/sheetsquest
+```
+
+An HTML version is in [LICENSE.md](LICENSE.md). If you changed something, add "Modified from the original."
+
+> **Two notes.** CC BY-NC-SA 4.0 is not an OSI-approved open-source license, because "no commercial use" is incompatible with the open-source definition. As a result GitHub's license detector cannot identify it and the sidebar will read "Other" — that is true of *every* non-commercial license, not a problem with this one. Contributions are accepted on the understanding that they carry these same terms.
+
+© 2026 rshamilton

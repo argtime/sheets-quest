@@ -13,16 +13,16 @@
     "quiz",
     "classroom"
   ],
-  "homepage": "https://argtime.github.io/sheetsquest/",
+  "homepage": "https://rshamilton.github.io/sheetsquest/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/argtime/sheetsquest.git"
+    "url": "git+https://github.com/rshamilton/sheetsquest.git"
   },
   "bugs": {
-    "url": "https://github.com/argtime/sheetsquest/issues",
+    "url": "https://github.com/rshamilton/sheetsquest/issues",
     "email": "sheetsquest@googlegroups.com"
   },
-  "author": "Sheets Quest",
+  "author": "rshamilton (https://github.com/rshamilton)",
   "license": "CC-BY-NC-SA-4.0",
   "type": "module",
   "engines": {
